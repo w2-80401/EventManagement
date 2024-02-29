@@ -1,0 +1,37 @@
+.venueList{
+    flex: 4;
+}
+
+.venueListItem{
+    display: flex;
+    align-items: center;
+}
+
+.venueListImg {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+  }
+
+.venueListEdit{
+    border: none;
+    border-radius: 10px;
+    padding: 5px 10px;
+    background-color: #3bb077;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.venueListDelete{
+    color: red;
+    cursor: pointer;
+}
+
+.actionButtons {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adjust the gap between buttons */
+}

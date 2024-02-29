@@ -1,0 +1,47 @@
+.newevent {
+  flex: 4;
+}
+
+.addeventForm {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center; 
+  margin-top: 10px;
+}
+
+.addeventItem {
+  width: 100%; 
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.addeventItem > label {
+  color: gray;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.addeventItem > input,
+.addeventItem > textarea {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px; 
+}
+
+.addeventButton{
+  height: 60px;
+  width: 200px;
+  border: none;
+  background-color: darkblue;
+  color: white;
+  padding: 7px 10px;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 30px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
