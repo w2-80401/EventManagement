@@ -22,21 +22,26 @@ export default function NewEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       if (!formData.name || !formData.details || !formData.image) {
         toast.error("Please fill in all fields.");
         return;
       }
-  
+
       const formDataToSend = new FormData();
       formDataToSend.append('name', formData.name);
       formDataToSend.append('details', formData.details);
       formDataToSend.append('image', formData.image);
-  
-      const response = await axios.post('http://localhost:4001/event/add', formDataToSend);
+
+      const response = await axios.post('http://localhost:4001/event/add', formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
       console.log(response.data);
       toast.success("Event Added Successfully");
-  
-      // Clear form fields after successful submission
+
       setFormData({
         name: '',
         image: '',
@@ -45,10 +50,10 @@ export default function NewEvent() {
     } catch (error) {
       console.error('Error:', error);
       toast.error("Error");
-      // Handle error, show toast message or any other UI feedback
+
     }
   };
-  
+
 
   return (
     <div className="newevent">

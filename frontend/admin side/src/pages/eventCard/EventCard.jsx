@@ -9,7 +9,13 @@ function EventCard() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get("http://localhost:4001/event/");
+        const token = localStorage.getItem('token'); 
+        const response = await axios.get("http://localhost:4001/event/",
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      });
         setEvents(response.data.data || []);
         console.log(response.data.data)
       } catch (error) {

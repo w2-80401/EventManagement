@@ -8,7 +8,13 @@ export default function WidgetLg() {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get("http://localhost:4001/order/allbookings");
+        const token = localStorage.getItem('token'); 
+        const response = await axios.get("http://localhost:4001/order/allbookings",
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      });
         setBookings(response.data.data || []);
       } catch (error) {
         console.error("Error fetching bookings:", error);

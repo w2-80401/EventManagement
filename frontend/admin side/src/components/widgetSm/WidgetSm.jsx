@@ -9,7 +9,13 @@ export default function WidgetsSm () {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get("http://localhost:4001/user");
+                const token = localStorage.getItem('token'); 
+                const response = await axios.get("http://localhost:4001/user",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setUsers(response.data.data || []);
             } catch (error) {
                 console.error("Error fetching users:", error);

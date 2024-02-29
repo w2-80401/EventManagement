@@ -8,8 +8,8 @@ export default function NewVenue() {
   const [capacity, setCapacity] = useState("");
   const [price, setPrice] = useState("");
   const [location, setLocation] = useState("");
-  const [details, setDetails] = useState(""); 
-  const [imageFile, setImageFile] = useState(null); 
+  const [details, setDetails] = useState("");
+  const [imageFile, setImageFile] = useState(null);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -25,19 +25,21 @@ export default function NewVenue() {
     formData.append('capacity', capacity);
     formData.append('price', price);
     formData.append('location', location);
-    formData.append('details', details); 
+    formData.append('details', details);
     formData.append('image', imageFile);
 
     try {
       // Send a POST request to the API endpoint
+      const token = localStorage.getItem('token'); 
       const response = await axios.post('http://localhost:4001/venue/add', formData, {
         headers: {
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(response.data); 
+      console.log(response.data);
       toast.success("Venue Added Successfully");
- 
+
       setName("");
       setCapacity("");
       setPrice("");

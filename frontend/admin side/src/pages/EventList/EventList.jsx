@@ -14,7 +14,13 @@ export default function EventList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(config.server+'/event');
+                const token = localStorage.getItem('token');
+                const response = await axios.get(config.server+'/event',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setData(response.data.data.map(event => ({
                     ...event,
                     id: event.id.toString(), 
@@ -29,7 +35,13 @@ export default function EventList() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4001/event/delete/${id}`);
+            const token = localStorage.getItem('token'); 
+            await axios.delete(`http://localhost:4001/event/delete/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setData(data.filter((item) => item.id !== id));
             toast.success("Event Deleted Successfully");
         } catch (error) {
@@ -44,9 +56,15 @@ export default function EventList() {
 
     const handleUpdate = async (updatedData) => {
         try {
-            await axios.put(`http://localhost:4001/event/update/${updatedData.id}`, updatedData);
+            const token = localStorage.getItem('token'); 
+            await axios.put(`http://localhost:4001/event/update/${updatedData.id}`, updatedData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             toast.success("Event Updated Successfully");
-            setEditableRow(null); // Close edit mode
+            setEditableRow(null); 
         } catch (error) {
             console.error('Error updating event:', error);
             toast.error("Error Updating Event");

@@ -14,10 +14,16 @@ export default function VenueList() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(config.server+'/venue');
+                const token = localStorage.getItem('token');
+                const response = await axios.get(config.server+'/venue',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setData(response.data.data.map(venue => ({
                     ...venue,
-                    id: venue.id.toString(), // Ensure ID is string for DataGrid
+                    id: venue.id.toString(), 
                 })));
             } catch (error) {
                 console.error('Error fetching venues:', error);
@@ -29,7 +35,13 @@ export default function VenueList() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4001/venue/delete/${id}`);
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://localhost:4001/venue/delete/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setData(data.filter((item) => item.id !== id));
             toast.success("Venue Deleted Successfully");
         } catch (error) {
@@ -44,9 +56,15 @@ export default function VenueList() {
 
     const handleUpdate = async (updatedData) => {
         try {
-            await axios.put(`http://localhost:4001/venue/update/${updatedData.id}`, updatedData);
+            const token = localStorage.getItem('token');
+            await axios.put(`http://localhost:4001/venue/update/${updatedData.id}`, updatedData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             toast.success("Venue Updated Successfully");
-            setEditableRow(null); // Close edit mode
+            setEditableRow(null); 
         } catch (error) {
             console.error('Error updating venue:', error);
             toast.error("Error Updating Venue");
@@ -104,10 +122,7 @@ export default function VenueList() {
                 checkboxSelection
                 disableSelectionOnClick
                 isCellEditable={(params) => editableRow === params.id}
-                // Using a custom editor component is also an option
-                // components={{
-                //     EditCell: CustomEditableCell,
-                // }}
+                
             />
         </div>
     );

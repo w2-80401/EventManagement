@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Paper, Typography } from '@mui/material';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import config from '../../config/config';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -31,10 +32,10 @@ const Login = () => {
             }
            
         } catch (error) {
-            setError('Invalid email or password');
+            // Display error message in toast
+            toast.error('Invalid email or password');
         }
     };
-
 
     return (
         <div className='product'>

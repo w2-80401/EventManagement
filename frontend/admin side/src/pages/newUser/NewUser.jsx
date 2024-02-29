@@ -32,10 +32,16 @@ export default function NewUser() {
         return;
       }
 
-      const response = await axios.post('http://localhost:4001/user/signup', formData);
+      const token = localStorage.getItem('token'); 
+      const response = await axios.post('http://localhost:4001/user/signup', formData,
+      {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    });
       console.log(response.data);
-      toast.success("User Added Successfully"); 
-      // Clear form fields after successful submission
+      toast.success("User Added Successfully");
+
       setFormData({
         firstName: '',
         lastName: '',

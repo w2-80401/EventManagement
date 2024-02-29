@@ -8,7 +8,13 @@ export default function Chart({ title, dataKey, grid }) {
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const response = await axios.get("http://localhost:4001/order/allbookings");
+        const token = localStorage.getItem('token');
+        const response = await axios.get("http://localhost:4001/order/allbookings",
+        {
+          headers: {
+              Authorization: `Bearer ${token}`
+          }
+      });
         setBookingData(response.data.data || []);
       } catch (error) {
         console.error("Error fetching booking data:", error);

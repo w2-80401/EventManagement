@@ -6,28 +6,32 @@ import "./home.css"
 import WidgetLg from "../../components/widgetLg/WidgetLg";
 import WidgetsSm from "../../components/widgetSm/WidgetSm";
 
-export default function Home () {
+export default function Home() {
     const [bookingData, setBookingData] = useState([]);
-
+    
     useEffect(() => {
         const fetchBookingData = async () => {
             try {
-                const response = await axios.get("http://localhost:4001/user/");
+                const token = localStorage.getItem('token'); 
+                const response = await axios.get("http://localhost:4001/user/", {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setBookingData(response.data.data || []);
             } catch (error) {
                 console.error("Error fetching booking data:", error);
             }
         };
         fetchBookingData();
-    }, []);
-
+    },  );
     return (
         <div className="home">
-            <FeaturedInfo/>
-            <Chart data={bookingData} title="User Analytics" grid={true} dataKey="UserCount"/>
+            <FeaturedInfo />
+            <Chart data={bookingData} title="User Analytics" grid={true} dataKey="UserCount" />
             <div className="homeWidgets">
-                <WidgetsSm/>
-                <WidgetLg/>
+                <WidgetsSm />
+                <WidgetLg />
             </div>
         </div>
     );

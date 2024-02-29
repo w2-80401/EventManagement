@@ -12,9 +12,16 @@ const BookingDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(config.server + '/order/allbookings');
+                const token = localStorage.getItem('token');
+
+                const response = await axios.get(config.server + '/order/allbookings',
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
                 setData(response.data.data.map(booking => ({
-                    ...booking, 
+                    ...booking,
                 })));
             } catch (error) {
                 console.error('Error fetching booking details:', error);
@@ -26,8 +33,14 @@ const BookingDetails = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4001/bookingdetails/delete/${id}`);
-            setData(data.filter((item) => item.id !== id)); 
+            const token = localStorage.getItem('token');
+            await axios.delete(`http://localhost:4001/bookingdetails/delete/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+            setData(data.filter((item) => item.id !== id));
             toast.success("Booking Details Deleted Successfully");
         } catch (error) {
             console.error('Error deleting booking details:', error);
@@ -46,7 +59,7 @@ const BookingDetails = () => {
         { field: 'attendees', headerName: 'Attendees', width: 120 },
         { field: 'total_price', headerName: 'Total Price', width: 120 },
         { field: 'booking_date', headerName: 'Booking Date', width: 150 },
-        { field: 'payment_status', headerName: 'Payment Status', width: 150 }, 
+        { field: 'payment_status', headerName: 'Payment Status', width: 150 },
         {
             field: 'action',
             headerName: 'Action',

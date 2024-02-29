@@ -10,11 +10,23 @@ export default function UserList() {
     const [editableRow, setEditableRow] = useState(null);
     const [editedData, setEditedData] = useState({});
 
+    const token = localStorage.getItem('token');
+    if (token.length > 0) {
+        console.log(token)
+    }
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:4001/user");
+            const token = localStorage.getItem('token'); 
+            
+
+            const response = await axios.get("http://localhost:4001/user/", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(token);
             console.log("API Response:", response.data);
-            setUsers(response.data.data || []); 
+            setUsers(response.data.data || []);
         } catch (error) {
             console.error("Error fetching users:", error);
         }
@@ -23,10 +35,16 @@ export default function UserList() {
     useEffect(() => {
         fetchUsers();
     }, []);
-
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:4001/user/${id}`);
+            const token = localStorage.getItem('token'); 
+          
+            await axios.delete(`http://localhost:4001/user/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             setUsers(users.filter((user) => user.id !== id));
             console.log("User deleted successfully");
             toast.success("User Deleted Successfully")
@@ -48,15 +66,15 @@ export default function UserList() {
             const response = await axios.put(`http://localhost:4001/user/${editableRow}`, editedData);
             console.log("Update Response:", response.data);
             toast.success("User Updated Successfully");
-            setEditableRow(null); 
-            fetchUsers(); 
+            setEditableRow(null);
+            fetchUsers();
         } catch (error) {
             console.error('Error updating user:', error);
             toast.error("Error Updating User");
         }
     };
-    
-    
+
+
 
     const handleChange = (e, field) => {
         const { value } = e.target;
